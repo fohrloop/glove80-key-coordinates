@@ -1,4 +1,4 @@
-# glove80-geometry
+# glove80-key-coordinates
 
 This repository holds the key 2d coordinates of the [Glove80 keyboard](https://www.moergo.com/).
 
