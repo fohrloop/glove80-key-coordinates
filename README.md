@@ -227,4 +227,4 @@ This information was used to translate the picture coordinates into real-world c
 scale =  0.768 (mm/inkscape_mm)
 ```
 
-See `calculate_scale.py` for details. Then, `show_coordinates.py` was used to calculate the coordinates of each key center on a two dimensional plane. The top left key center coordinates were fixed to (10, 10) mm and the separation between the sides was set to 40 mm. The change the keys included in `show_coordinates.py`, edit the `SELECTED` variable.
+See `calculate_scale.py` for details. Then, `show_coordinates.py` was used to calculate the coordinates of each key center on a two dimensional plane. The top left key center coordinates were fixed to (10, 10) mm and the separation between the sides was set to 40 mm. To change the keys included in `show_coordinates.py`, edit the `SELECTED` variable.
