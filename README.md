@@ -4,7 +4,7 @@ This repository holds the key 2d coordinates of the [Glove80 keyboard](https://w
 
 
 > [!TIP]
-> You can make custom layouts with (show_coordinates.py)[show_coordinates.py]
+> You can make custom layouts with [show_coordinates.py](show_coordinates.py)
 >
 > If you're planning to use [dariogoetz/keyboard_layout_optimizer](https://github.com/dariogoetz/keyboard_layout_optimizer), you may use [coords_klo_format.py](coords_klo_format.py)
 
