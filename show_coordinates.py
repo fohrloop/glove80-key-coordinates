@@ -18,8 +18,8 @@ SCALE = 0.768  # mm / inkscape mm
 # Difference of left and right halves of the keyboard
 SIDE_SEPARATION = 40  # mm
 
-# labels for 36 key layout (18 per side)
-LABELS_36_keys = [
+# Base labels: 30 key layout (15 per side)
+LABELS_BASE_30_keys = [
     "C5R3",
     "C5R4",
     "C5R5",
@@ -35,10 +35,18 @@ LABELS_36_keys = [
     "C1R3",
     "C1R4",
     "C1R5",
+]
+
+# labels for 36 key layout (18 per side)
+LABELS_36_keys = LABELS_BASE_30_keys + [
     "T4",
     "T5",
     "T6",
 ]
+
+# Upper (inner) two thumbs + pinky 6th col middle rows
+LABELS_36_keys_2t_pinky = LABELS_BASE_30_keys + ["T1", "T2", "C6R4"]
+
 LABELS_42_keys = LABELS_36_keys + [
     "C6R3",
     "C6R4",
@@ -66,7 +74,7 @@ LABELS_80_keys = LABELS_42_keys + [
     "T3",
 ]
 
-SELECTED = LABELS_36_keys
+SELECTED = LABELS_36_keys_2t_pinky
 
 # Origin is at top left corner.
 if SELECTED == LABELS_80_keys:
@@ -75,6 +83,8 @@ elif SELECTED == LABELS_42_keys:
     TOP_LEFT_KEY = "C6R3"
 elif SELECTED == LABELS_36_keys:
     TOP_LEFT_KEY = "C5R3"
+elif SELECTED == LABELS_36_keys_2t_pinky:
+    TOP_LEFT_KEY = "C6R3"
 else:
     raise ValueError("Unknown layout")
 
@@ -91,16 +101,9 @@ assert len(set(LABELS_80_keys)) == 40
 def get_coordinates(root: ET.Element) -> dict[str, tuple[float, float]]:
     coordinates = dict()
     for label in SELECTED:
-        path_element = root.find(
-            f'.//svg:circle[@inkscape:label="{label}"]', namespaces=namespaces
-        )
-        cx = float(path_element.get("cx"))
-        cy = float(path_element.get("cy"))
-        x = cx * SCALE
-        y = cy * SCALE
-        coordinates[label] = (x, y)
+        coordinates[label] = get_coordinate(label)
 
-    offset_x, offset_y = coordinates[TOP_LEFT_KEY]
+    offset_x, offset_y = get_coordinate(TOP_LEFT_KEY)
     offset_x -= ORIGIN_OFFSET[0]
     offset_y -= ORIGIN_OFFSET[1]
     for label, (x, y) in coordinates.items():
@@ -109,6 +112,17 @@ def get_coordinates(root: ET.Element) -> dict[str, tuple[float, float]]:
     coordinates_right = get_right_side(coordinates)
     coordinates.update(coordinates_right)
     return coordinates
+
+
+def get_coordinate(label):
+    path_element = root.find(
+        f'.//svg:circle[@inkscape:label="{label}"]', namespaces=namespaces
+    )
+    cx = float(path_element.get("cx"))
+    cy = float(path_element.get("cy"))
+    x = cx * SCALE
+    y = cy * SCALE
+    return x, y
 
 
 def get_right_side(
